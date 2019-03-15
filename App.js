@@ -6,8 +6,8 @@ import ExplorerScreen from './screens/ExplorerScreen'
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 const TabNavigator = createBottomTabNavigator({
-  Dags: DagsScreen,
   Explorer: ExplorerScreen,
+  Dags: DagsScreen,
 });
 
 export default createAppContainer(TabNavigator);

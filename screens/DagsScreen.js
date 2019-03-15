@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, ToolbarAndroid, FlatList } from 'react-native';
 import Dag from '../components/Dag'
 import DagController from '../controllers/DagController'
+import UserController from '../controllers/UserController'
 import { Toolbar } from 'react-native-material-ui';
 
 export default class DagsScreen extends React.Component{
@@ -24,7 +25,7 @@ export default class DagsScreen extends React.Component{
             this.setState({
                 dags: elements,
             })
-            DagController.requestCollege(this.state.collegeId, this.state.userId, (userElements) => {
+            UserController.requestCollege(this.state.collegeId, this.state.userId, (userElements) => {
                 this.setState({
                     people: userElements,
                 })
