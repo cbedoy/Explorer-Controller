@@ -1,21 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import SafeAreaView from 'react-native-safe-area-view';
+import { Text, View } from 'react-native';
+import DagsScreen from './screens/DagsScreen'
+import ExplorerScreen from './screens/ExplorerScreen'
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const TabNavigator = createBottomTabNavigator({
+  Dags: DagsScreen,
+  Explorer: ExplorerScreen,
 });
+
+export default createAppContainer(TabNavigator);
