@@ -1,10 +1,63 @@
 import React from 'react';
-import { Text, View, ToolbarAndroid } from 'react-native';
+import { Text, View, ToolbarAndroid, FlatList } from 'react-native';
 import Dag from '../components/Dag'
+import DagController from '../controllers/DagController'
 import { Toolbar } from 'react-native-material-ui';
 
 export default class DagsScreen extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            dags: [],
+            loading: false,
+            userId: '2845fe481e74b9010a7913d7b214a8937972d6b1',
+            collegeId: '50592380-a016-4681-8622-482e5ea44b95',   
+        }
+    }
+
+    componentDidMount(){
+        this.setState({
+            loading: true
+        })
+        DagController.requestDags(this.state.userId, (elements) => {
+            this.setState({
+                dags: elements,
+            })
+            DagController.requestCollege(this.state.collegeId, this.state.userId, (userElements) => {
+                this.setState({
+                    people: userElements,
+                })
+                DagController.prepareDagsWithData(
+                    this.state.userId, 
+                    this.state.dags, 
+                    this.state.people, (preparedDags) => {
+                        this.setState({
+                            dags: preparedDags,
+                            loading: false
+                        })
+                    })
+            })
+        })
+    }
+
     render(){
+        if(this.state.loading){
+            return(
+                <View style={{paddingTop: 24}}>
+                    <Toolbar 
+                        centerElement="Dags"
+                        searchable={{
+                        autoFocus: true,
+                        placeholder: 'Search dags',
+                        }}
+                    />
+                    <Text style={{textAlign:'center'}} >
+                        Loading
+                    </Text>
+                </View>
+            );
+        }
         return(
             <View  style={{paddingTop: 24}}>
                 <Toolbar 
@@ -15,18 +68,17 @@ export default class DagsScreen extends React.Component{
                     }}
                 />
                 <View>
-                    <Dag 
-                        name="Carlos Bedoy" 
-                        message="Ut enim ad minim veniam, quis nostru"
-                        avatar="https://instagram.fntr2-1.fna.fbcdn.net/vp/67bce70dc9fd981d9d8b43f80d1182da/5D15F205/t51.2885-19/s150x150/52034018_402293763857006_4024521009326456832_n.jpg?_nc_ht=instagram.fntr2-1.fna.fbcdn.net" />
-                    <Dag 
-                        name="Vanessa Donato" 
-                        message="Excepteur sint occaecat cupidatat non proident" 
-                        avatar="https://instagram.fntr2-1.fna.fbcdn.net/vp/65b014d2173af4e1add1b0a7091ee65a/5D260C6C/t51.2885-19/s150x150/37853451_447968659050097_2470769469912252416_n.jpg?_nc_ht=instagram.fntr2-1.fna.fbcdn.net" />
-                    <Dag 
-                        name="Karen Dominguez" 
-                        message="Sed ut perspiciatis unde omnis iste natus error sit voluptatem"
-                        avatar="https://instagram.fntr2-1.fna.fbcdn.net/vp/a766275f52ea622764b89b2bcb6463dd/5D28D61C/t51.2885-19/s150x150/50481264_299253827449348_6030724379594194944_n.jpg?_nc_ht=instagram.fntr2-1.fna.fbcdn.net"  />
+                    <FlatList 
+                        data={this.state.dags}
+                        renderItem={
+                            ({item}) => <Dag
+                                name={item.description}
+                                message={item.type}
+                                avatar={item.avatar}
+                            >
+                            </Dag>
+                        }
+                    />
                 </View>
             </View>
         );

@@ -16,7 +16,7 @@ export default class Dag extends React.Component{
                             source={pic} />
                     </View>
                     <View style={{flex:1}}>
-                        <Text style={styles.name}>{this.props.name} </Text>
+                        <Text style={styles.name} numberOfLines={1}>{this.props.name} </Text>
                     </View>
                 </View>
 
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
         width:32,
         height:32,
+        backgroundColor: '#e0e0e0',
         borderRadius:16,
     },
     name: {
