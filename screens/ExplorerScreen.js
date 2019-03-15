@@ -11,7 +11,7 @@ export default class ExplorerScreen extends React.Component{
         super(props);
         this.state = {
             resources: [],
-            
+            user: new Map(),
             loading: false,
             userId: '2845fe481e74b9010a7913d7b214a8937972d6b1',
             collegeId: '50592380-a016-4681-8622-482e5ea44b95',   
@@ -22,6 +22,7 @@ export default class ExplorerScreen extends React.Component{
         this.setState({
             loading: true
         })
+        UserController.request
         ExplorerController.requestExplorer(this.state.userId, (data) => {
             this.setState({
                 loading: false, 
